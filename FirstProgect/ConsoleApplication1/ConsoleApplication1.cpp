@@ -1,39 +1,31 @@
 ﻿#include <iostream>
+#include <vector>
+#include <numeric>
 
 using namespace std;
-
-void decod(int n)
-{
-    int binary[32];
-    int i = 0;
-    while (n > 0) {
-        binary[i] = n % 2;
-        n = n / 2;
-        i++;
+string to_ternary(unsigned int num) {
+    string ternary;
+    while (num > 0) {
+        ternary += ((num % 3) + '0');
+        num /= 3;
     }
-    string answer = "";
-    for (int j = i - 1; j >= 0; j--) {
-        if (binary[j] == 1) {
-            answer += "1";
-        }
-    }
-    for (int j = i - 1; j >= 0; j--) {
-        if (binary[j] == 0) {
-            answer += "0";
-        }
-    }
-    cout << answer;
+    return ternary;
 }
+
+unsigned int sum_ternary(unsigned int num) {
+    string ternary = to_ternary(num);
+    return accumulate(ternary.begin(), ternary.end(), 0, [](int acc, char c) { return acc + (c - '0'); });
+}
+
 int main()
 {
-    int n;
+    unsigned int n, s = 0, tmp;
     cin >> n;
-    if (n == 0)
+    for (unsigned int i = 0; i < n; i++)
     {
-        cout << n << endl;
-        return 0;
+        cin >> tmp;
+        s += sum_ternary(tmp);
     }
-    else {
-        decod(n);
-    }
+    cout << sum_ternary(s) << endl;
+    return 0;
 }
