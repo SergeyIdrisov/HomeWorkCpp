@@ -1,31 +1,41 @@
 ﻿#include <iostream>
-#include <vector>
-#include <numeric>
+#include "ConsoleApplication1.h"
 
 using namespace std;
-string to_ternary(unsigned int num) {
-    string ternary;
-    while (num > 0) {
-        ternary += ((num % 3) + '0');
-        num /= 3;
-    }
-    return ternary;
-}
 
-unsigned int sum_ternary(unsigned int num) {
-    string ternary = to_ternary(num);
-    return accumulate(ternary.begin(), ternary.end(), 0, [](int acc, char c) { return acc + (c - '0'); });
-}
+class Person {
+public:
+    Person(string name, int height)
+    {
+        _name = name;
+        _height = height;
+    }
+    ~Person() { cout << "Bye!" << endl; }
+
+    void setName(string name) { _name = name; }
+    string getName() const { return _name; }
+private:
+    string _name;
+    int _height;
+};
+class Man: public Person {
+public:
+    Man (string name, int height): Person(name, height) {}
+
+private:
+    bool is_man = true;
+};
+class Women: public Person{
+    public:
+        Women(string name, int height) : Person(name, height) { cout << "RR" << endl; }
+        string getName() const { return "No sex today!"; }
+    private:
+        bool is_man = false;
+};
 
 int main()
 {
-    unsigned int n, s = 0, tmp;
-    cin >> n;
-    for (unsigned int i = 0; i < n; i++)
-    {
-        cin >> tmp;
-        s += sum_ternary(tmp);
-    }
-    cout << sum_ternary(s) << endl;
-    return 0;
+    Women person{"Sergey", 175};
+    person.setName("Katy");
+    cout << person.getName() << endl;
 }
